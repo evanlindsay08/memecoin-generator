@@ -51,11 +51,13 @@ async def test(request):
 async def generate(request):
     try:
         data = await request.json()
+        print("Received data:", data)  # Debug log
         idea = data.get('idea')
         generated_name = data.get('generatedName', '')
-        is_regeneration = data.get('isRegeneration', False)
-        art_style = data.get('artStyle', 'pixel')  # Default to pixel art
+        art_style = data.get('artStyle', 'pixel')
         
+        print(f"Processing request - idea: {idea}, name: {generated_name}, style: {art_style}")  # Debug log
+
         if not idea:
             return web.json_response({"error": "No idea provided"}, status=400)
 
@@ -135,7 +137,7 @@ async def generate(request):
             )
 
     except Exception as e:
-        print(f"General error: {str(e)}")
+        print(f"Detailed error: {str(e)}")  # Debug log
         return web.json_response({"error": str(e)}, status=500)
 
 async def init_app():
