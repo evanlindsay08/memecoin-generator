@@ -628,7 +628,7 @@
 
     <script>
         // Add this at the start of your script section
-        const API_URL = 'https://memecoin-generator-production.up.railway.app/';  // Replace with your actual Railway URL
+        const API_URL = 'https://memecoin-generator-production.up.railway.app';  // Replace with your actual Railway URL
 
         const requestQueue = [];
         let activeRequests = 0;
@@ -761,8 +761,14 @@
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || 'Failed to generate image');
+                        const errorText = await response.text();
+                        console.error('Server response:', errorText);
+                        try {
+                            const errorData = JSON.parse(errorText);
+                            throw new Error(errorData.error || 'Failed to generate image');
+                        } catch (e) {
+                            throw new Error(`Server error: ${errorText}`);
+                        }
                     }
 
                     const data = await response.json();
@@ -777,7 +783,7 @@
                     const socialLinksContainer = document.getElementById('socialLinks');
                     socialLinksContainer.innerHTML = generateSocialLinks(generatedContent.socialLinks);
                 } catch (error) {
-                    console.error('Error:', error);
+                    console.error('Full error:', error);
                     document.getElementById('loading').style.display = 'none';
                     alert('Error generating memecoin: ' + error.message);
                 }
