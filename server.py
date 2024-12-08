@@ -1,8 +1,8 @@
-from aiohttp import web, ClientSession
+from aiohttp import web, ClientSession  # type: ignore
 import json
 import os
-from dotenv import load_dotenv
-import requests
+from dotenv import load_dotenv  # type: ignore
+import requests  # type: ignore
 import time
 
 load_dotenv()
@@ -162,4 +162,5 @@ async def init_app():
 if __name__ == '__main__':
     print("Starting server...")
     print(f"Leonardo API Key present: {'Yes' if LEONARDO_API_KEY else 'No'}")
-    app = web.run_app(init_app(), port=8000)
+    port = int(os.environ.get('PORT', 8000))
+    app = web.run_app(init_app(), port=port, host='0.0.0.0')
