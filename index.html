@@ -627,6 +627,9 @@
     </div>
 
     <script>
+        // Add this at the start of your script section
+        const API_URL = 'https://memecoin-generator-production.up.railway.app/';  // Replace with your actual Railway URL
+
         const requestQueue = [];
         let activeRequests = 0;
         const MAX_CONCURRENT_REQUESTS = 10;
@@ -745,13 +748,13 @@
 
             const request = async () => {
                 try {
-                    const response = await fetch('http://localhost:8000/api/generate', {
+                    const response = await fetch(`${API_URL}/api/generate`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ 
-                            idea: generatedContent.name, // Use the cleaned name for image generation
+                            idea: generatedContent.name,
                             generatedName: generatedContent.name,
                             artStyle: selectedStyle
                         })
@@ -810,7 +813,7 @@
 
         async function testPost() {
             try {
-                const response = await fetch('http://localhost:8000/api/test', {
+                const response = await fetch(`${API_URL}/api/test`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -896,7 +899,7 @@
 
             const request = async () => {
                 try {
-                    const response = await fetch('http://localhost:8000/api/generate', {
+                    const response = await fetch(`${API_URL}/api/generate`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
